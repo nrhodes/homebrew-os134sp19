@@ -10,3 +10,14 @@ Code for the Harvey Mudd College CS 161: Operating Systems for Spring, 2019
         * Support softmmu:
             * ```i386-softmmu```
             * ```x86_64-softmmu```
+
+Need to install the following brew packages:
+* mpfr
+* gmp
+* libmpc
+* binutils
+* gcc
+* gdb
+
+
+May need to codesign gdb.
