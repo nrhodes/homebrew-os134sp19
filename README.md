@@ -11,6 +11,10 @@ Code for the Harvey Mudd College CS 161: Operating Systems for Spring, 2019
             * ```i386-softmmu```
             * ```x86_64-softmmu```
 
+Install with:
+```
+brew install nrhodes/homeberw-os134sp19/qemu
+
 
 
 Need to install the following brew packages:

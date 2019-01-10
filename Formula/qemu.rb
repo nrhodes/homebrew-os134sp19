@@ -18,12 +18,14 @@ class Qemu < Formula
   depends_on "libssh2" => :optional
   depends_on "libusb" => :optional
 
-  fails_with :gcc_4_0 do
-    cause "qemu requires a compiler with support for the __thread specifier"
-  end
+  if OS.mac?
+    fails_with :gcc_4_0 do
+      cause "qemu requires a compiler with support for the __thread specifier"
+    end
 
-  fails_with :gcc do
-    cause "qemu requires a compiler with support for the __thread specifier"
+    fails_with :gcc do
+      cause "qemu requires a compiler with support for the __thread specifier"
+    end
   end
 
   # 820KB floppy disk image file of FreeDOS 1.2, used to test QEMU
@@ -46,17 +48,19 @@ class Qemu < Formula
       --extra-cflags=-DNCURSES_WIDECHAR=1
     ]
 
-    args << "--enable-cocoa"
+    if OS.mac?
+      args << "--enable-cocoa"
 
-    # Sharing Samba directories in QEMU requires the samba.org smbd which is
-    # incompatible with the macOS-provided version. This will lead to
-    # silent runtime failures, so we set it to a Homebrew path in order to
-    # obtain sensible runtime errors. This will also be compatible with
-    # Samba installations from external taps.
-    args << "--smbd=#{HOMEBREW_PREFIX}/sbin/samba-dot-org-smbd"
+      # Sharing Samba directories in QEMU requires the samba.org smbd which is
+      # incompatible with the macOS-provided version. This will lead to
+      # silent runtime failures, so we set it to a Homebrew path in order to
+      # obtain sensible runtime errors. This will also be compatible with
+      # Samba installations from external taps.
+      args << "--smbd=#{HOMEBREW_PREFIX}/sbin/samba-dot-org-smbd"
+      args << "--disable-sdl"
+    end
 
     args << "--disable-vde"
-    args << "--disable-sdl"
     args << "--disable-gtk"
     args << "--disable-libssh2"
 
