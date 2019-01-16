@@ -18,10 +18,10 @@ brew install nrhodes/homeberw-os134sp19/qemu
 
 
 Need to install the following brew packages:
-* mpfr
-* gmp
-* libmpc
-* binutils
+* mpfr ?
+* gmp ?
+* libmpc ?
+* binutils ?
 * gcc:  install with ```brew install i386-elf-gcc``` (installs binutils as well)
 * gdb (i386-elf-gdb)
 
