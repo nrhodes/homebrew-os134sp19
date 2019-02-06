@@ -11,22 +11,12 @@ class Qemu < Formula
   depends_on "glib"
   depends_on "gnutls"
   depends_on "jpeg"
-  depends_on :macos => :snow_leopard
+  depends_on "libpng"
+  depends_on "libssh"
+  depends_on "libusb"
   depends_on "ncurses"
   depends_on "pixman"
-  depends_on "libpng" => :recommended
-  depends_on "libssh2" => :optional
-  depends_on "libusb" => :optional
-
-  if OS.mac?
-    fails_with :gcc_4_0 do
-      cause "qemu requires a compiler with support for the __thread specifier"
-    end
-
-    fails_with :gcc do
-      cause "qemu requires a compiler with support for the __thread specifier"
-    end
-  end
+  depends_on "vde"
 
   # 820KB floppy disk image file of FreeDOS 1.2, used to test QEMU
   resource "test-image" do
@@ -36,7 +26,7 @@ class Qemu < Formula
 
   def install
     ENV["LIBTOOL"] = "glibtool"
-    ENV["CFLAGS"] = "-fno-common"
+    #ENV["CFLAGS"] = "-fno-common"
 
     args = %W[
       --prefix=#{prefix}
@@ -45,11 +35,15 @@ class Qemu < Formula
       --disable-bsd-user
       --disable-guest-agent
       --enable-curses
+      --enable-libssh2
+      --enable-vde
       --extra-cflags=-DNCURSES_WIDECHAR=1
     ]
 
     if OS.mac?
       args << "--enable-cocoa"
+      args << "--disable-sdl"
+      args << "--disable-gtk"
 
       # Sharing Samba directories in QEMU requires the samba.org smbd which is
       # incompatible with the macOS-provided version. This will lead to
@@ -57,12 +51,10 @@ class Qemu < Formula
       # obtain sensible runtime errors. This will also be compatible with
       # Samba installations from external taps.
       args << "--smbd=#{HOMEBREW_PREFIX}/sbin/samba-dot-org-smbd"
-      args << "--disable-sdl"
     end
 
-    args << "--disable-vde"
-    args << "--disable-gtk"
-    args << "--disable-libssh2"
+    #args << "--disable-vde"
+    #args << "--disable-libssh2"
 
     system "./configure", *args
     system "make", "V=1", "install"
