@@ -12,7 +12,7 @@ class Qemu < Formula
   depends_on "gnutls"
   depends_on "jpeg"
   depends_on "libpng"
-  depends_on "libssh"
+  depends_on "libssh2"
   depends_on "libusb"
   depends_on "ncurses"
   depends_on "pixman"
