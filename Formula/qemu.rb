@@ -26,7 +26,7 @@ class Qemu < Formula
 
   def install
     ENV["LIBTOOL"] = "glibtool"
-    #ENV["CFLAGS"] = "-fno-common"
+    ENV["CFLAGS"] = "-fno-common"
 
     args = %W[
       --prefix=#{prefix}
